@@ -1,24 +1,24 @@
-package com.alex.tax.config;
+// package com.alex.tax.config;
 
-import org.springframework.boot.info.BuildProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+// import org.springframework.boot.info.BuildProperties;
+// import org.springframework.context.annotation.Bean;
+// import org.springframework.context.annotation.Configuration;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.info.License;
+// import io.swagger.v3.oas.models.OpenAPI;
+// import io.swagger.v3.oas.models.info.Info;
+// import io.swagger.v3.oas.models.info.License;
 
-@Configuration
-public class TaxServiceConfig {
+// @Configuration
+// public class TaxServiceConfig {
 
-//     @Bean
-//     public OpenAPI customOpenAPI(BuildProperties buildProperties) {
-//         return new OpenAPI()
-//                 .info(new Info()
-//                         .title("sample application API")
-//                         // .version(buildProperties.getVersion())
-//                         // .description(buildProperties.getName())
-//                         .termsOfService("http://swagger.io/terms/")
-//                         .license(new License().name("Apache 2.0").url("http://springdoc.org")));
+//     // @Bean
+//     // public OpenAPI customOpenAPI(BuildProperties buildProperties) {
+//     // return new OpenAPI()
+//     // .info(new Info()
+//     // .title("sample application API")
+//     // // .version(buildProperties.getVersion())
+//     // // .description(buildProperties.getName())
+//     // .termsOfService("http://swagger.io/terms/")
+//     // .license(new License().name("Apache 2.0").url("http://springdoc.org")));
+//     // }
 // }
-}

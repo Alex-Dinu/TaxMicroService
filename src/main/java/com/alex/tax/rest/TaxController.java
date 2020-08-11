@@ -6,11 +6,14 @@ import com.alex.tax.model.OutputTaxModel;
 import com.alex.tax.service.TaxService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.media.Content;
 
 @RestController
 @RequestMapping("/tax")
@@ -25,6 +28,15 @@ public class TaxController {
         this.taxService = taxService;
     }
 
+    @Operation(summary = "Retriev sales tax for a particular state")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200",
+                    description = "Tax rate was returned with the selected state",
+                    content = {@Content(mediaType = "application/json")}),
+        @ApiResponse(responseCode = "404",
+                    description = "Tax rate could not be found for the selected state",
+                    content = @Content)        
+    })
     @RequestMapping(method = RequestMethod.GET, value = "/{state}")
     public ResponseEntity<OutputTaxModel> GetStateTaxRate(@PathVariable("state") String state) {
         try {             
