@@ -12,8 +12,15 @@ import org.springframework.stereotype.Service;
 public class TaxService implements TaxServicer{
 
     private TaxFactoryOrchestrator taxFactory;
+    private TaxRater taxRater;
+    
 
     public TaxService(){}
+
+    @Autowired
+    public void setTaxFactory(TaxFactoryOrchestrator taxFactory) {
+        this.taxFactory = taxFactory;
+    }
 
     @Autowired
     public TaxService(TaxFactoryOrchestrator taxFactory){
@@ -28,17 +35,33 @@ public class TaxService implements TaxServicer{
     public OutputTaxModel getTaxRate(String state) throws InvalidTaxRateException {
         var response = new OutputTaxModel();
         response.setState(state);
-        response.setTaxRate(getTaxRater(state).getTaxRate());
+        //System.out.println(">>> TaxService.getTaxRate: getting tax getter");
+        setTaxRater(getTaxRater(state));
+        //System.out.println(">>> TaxService.getTaxRate: got tax getter = "+ tax.getClass().getCanonicalName());
+        response.setTaxRate(getTaxRater().getTaxRate());
+        //System.out.println(">>> TaxService.getTaxRate: called tax getter");
         return response;
     } 
 
     private TaxRater getTaxRater (String state) throws InvalidTaxRateException {
         try{
-        return this.taxFactory.getTaxRater(state);
+            //System.out.println(">>>TaxService.getTaxRater: = " + this.taxFactory.getTaxRater(state).getClass().getName());
+            return this.taxFactory.getTaxRater(state);
         }
         catch(Exception e) {
             throw new InvalidTaxRateException("Could not retrieve tax rate for " + state + ".");
         }
     }
+
+    public TaxRater getTaxRater() {
+        return taxRater;
+    }
+
+    public void setTaxRater(TaxRater taxRater) {
+        this.taxRater = taxRater;
+    }
+
+
+
 }
 

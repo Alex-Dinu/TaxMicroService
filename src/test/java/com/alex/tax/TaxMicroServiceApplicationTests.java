@@ -21,8 +21,7 @@ class TaxMicroServiceApplicationTests {
     @Test
     void TexasTaxRateReturnedSuccessfully() {
         
-        TexasTaxRate texasTaxRate = new TexasTaxRate();
-        double expectedResult = texasTaxRate.getTaxRate();
+        double expectedResult = 7.5;
 
         OutputTaxModel response = taxController.GetStateTaxRate(("Texas")).getBody();
         double actualResult = response.getTaxRate();

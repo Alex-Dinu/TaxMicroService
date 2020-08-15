@@ -1,11 +1,19 @@
 package com.alex.tax.service.taxrates;
 
+import com.alex.tax.repository.TaxGetter;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class IllinoisTaxRate implements TaxRater{
 
-    static final double STATE_TAX = 12.5;
+    
+    // @Autowired
+    // private TaxGetter taxGetter;
+
     @Override
     public double getTaxRate() {
-        return STATE_TAX;
+        //return taxGetter.getTaxRate("illinois");
+        return 12.5;
     }
 
 }
