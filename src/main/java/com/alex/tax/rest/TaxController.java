@@ -6,9 +6,15 @@ import com.alex.tax.model.OutputTaxModel;
 import com.alex.tax.service.TaxService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
+import java.util.List;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -35,25 +41,45 @@ public class TaxController {
             @ApiResponse(responseCode = "200", description = "Tax rate was returned with the selected state", content = @Content(schema = @Schema(implementation = OutputTaxModel.class))),
             @ApiResponse(responseCode = "404", description = "Tax rate could not be found for the selected state") })
     @RequestMapping(method = RequestMethod.GET, value = "/{state}")
-    public ResponseEntity<OutputTaxModel> GetStateTaxRate(@PathVariable("state") String state) {
+    public ResponseEntity<OutputTaxModel> getStateTaxRate(@PathVariable("state") String state) {
         try {
-            return new ResponseEntity<OutputTaxModel>(taxService.getTaxRate(state), HttpStatus.OK);
+            OutputTaxModel outputTaxModel = taxService.getTaxRate(state);
+
+            // final String uriString =
+            // ServletUriComponentsBuilder.fromCurrentRequest().build().toUriString();
+            Link findOneLink = linkTo(methodOn(TaxController.class).getStateTaxRate(state)).withSelfRel();
+            Link findAllLink = linkTo(methodOn(TaxController.class).getAllTaxRates()).withRel("all taxes");
+            // outputTaxModel.add(new Link(uriString, "self"));
+            outputTaxModel.add(findOneLink);
+            outputTaxModel.add(findAllLink);
+
+            return new ResponseEntity<OutputTaxModel>(outputTaxModel, HttpStatus.OK);
         } catch (InvalidTaxRateException e) {
             return new ResponseEntity<OutputTaxModel>(HttpStatus.NOT_FOUND);
         }
     }
 
-    // @RequestMapping(method = RequestMethod.GET, value = "/{state}")
-    // public ResponseEntity<OutputTaxModel> GetStateTaxRate(@PathVariable("state")
-    // String state) {
-    // try {
-    // ApplicationContext context = new
-    // AnnotationConfigApplicationContext(TaxFactoryConfigurer.class);
+    @Operation(summary = "Retriev all tax rates")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "All tax rates", content = @Content(schema = @Schema(implementation = OutputTaxModel.class))) })
 
-    // return new ResponseEntity<OutputTaxModel>(
-    // context.getBean(TaxService.class).getTaxRate(state), HttpStatus.OK);
-    // } catch (InvalidTaxRateException e) {
-    // return new ResponseEntity<OutputTaxModel>(HttpStatus.NOT_FOUND);
-    // }
-    // }
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<List<OutputTaxModel>> getAllTaxRates() {
+        List<OutputTaxModel> allTaxes = taxService.getAllTaxRates();
+
+        for (OutputTaxModel outputTaxData : allTaxes) {
+            Link findOneLink = linkTo(methodOn(TaxController.class).getStateTaxRate(outputTaxData.getState()))
+                    .withRel(outputTaxData.getState() + " tax rate");
+            outputTaxData.add(findOneLink);
+        }
+        // Link findOneLink =
+        // linkTo(methodOn(TaxController.class).getStateTaxRate("Texas")).withRel("Texas
+        // tax rate");
+        // Link findAllLink =
+        // linkTo(methodOn(TaxController.class).getAllTaxRates()).withSelfRel();
+
+        // allTaxes.add(findAllLink);
+
+        return new ResponseEntity<List<OutputTaxModel>>(taxService.getAllTaxRates(), HttpStatus.OK);
+    }
 }

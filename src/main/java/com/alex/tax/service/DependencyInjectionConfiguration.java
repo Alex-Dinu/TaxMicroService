@@ -29,9 +29,4 @@ public class DependencyInjectionConfiguration {
             return new TaxRepo();
         }
 
-        // @Bean
-        // public TexasTaxRate texasTaxRate(@Autowired TaxGetter taxGetter)
-        // {
-        //     return new TexasTaxRate(taxGetter);
-        // }
 }

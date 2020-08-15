@@ -20,25 +20,22 @@ class TaxMicroServiceApplicationTests {
 
     @Test
     void TexasTaxRateReturnedSuccessfully() {
-        
+
         double expectedResult = 7.5;
 
-        OutputTaxModel response = taxController.GetStateTaxRate(("Texas")).getBody();
+        OutputTaxModel response = taxController.getStateTaxRate(("Texas")).getBody();
         double actualResult = response.getTaxRate();
 
         assertEquals(expectedResult, actualResult, "Didn't get what was expected");
     }
 
     @Test
-    void InvalidStateWillRaisAnException(){
-        try{
+    void InvalidStateWillRaisAnException() {
+        try {
             TaxService taxService = new TaxService();
-             taxService.getTaxRate("Invalid");
-        }
-        catch(InvalidTaxRateException e){
+            taxService.getTaxRate("Invalid");
+        } catch (InvalidTaxRateException e) {
             assertEquals(1, 1);
         }
     }
 }
-
-
