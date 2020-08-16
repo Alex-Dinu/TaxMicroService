@@ -1,6 +1,11 @@
 package com.alex.tax.repository;
 
-public class TaxRepo implements TaxGetter{
+import java.util.ArrayList;
+import java.util.List;
+
+import com.alex.tax.model.OutputTaxModel;
+
+public class TaxRepo implements TaxGetter {
 
     @Override
     public double getTaxRate(String state) {
@@ -9,18 +14,32 @@ public class TaxRepo implements TaxGetter{
         switch (stateToSearchBy) {
             case "texas":
                 stateTaxRate = 7.5;
-                break;     
+                break;
             case "illinois":
                 stateTaxRate = 12.5;
-                break;  
+                break;
             case "florida":
                 stateTaxRate = 6.5;
-                break;                    
+                break;
             default:
                 break;
         }
 
         return stateTaxRate;
     }
-    
+
+    @Override
+    public List<OutputTaxModel> getAllTaxRates() {
+        OutputTaxModel outputTaxModel;
+        List<OutputTaxModel> allTaxes = new ArrayList<>();
+
+        outputTaxModel = new OutputTaxModel("Texas", 7.5d);
+        allTaxes.add(outputTaxModel);
+        outputTaxModel = new OutputTaxModel("Illinois", 12.5d);
+        allTaxes.add(outputTaxModel);
+        outputTaxModel = new OutputTaxModel("Florida", 6.5d);
+        allTaxes.add(outputTaxModel);
+
+        return allTaxes;
+    }
 }
