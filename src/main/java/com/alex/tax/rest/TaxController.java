@@ -26,7 +26,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @RestController
 @RequestMapping("/tax")
 @CrossOrigin // allows requests from all domains
-@Tag(name = "State Tax Rates", description = "<b>Showcases the following:</b> \n 1. Microservice \n 2. Factory Pattern \n\t 2.1 Dynamically instanciate classes using reflection \n 3. OpenApi and Swagger \n 4. Custom exceptions \n 5. Interceptors \n\n <b> TODO: </b> \n 1. Add ecxeption object as response")
+@Tag(name = "State Tax Rates", description = "<b>Showcases the following:</b> \n 1. Microservice \n 2. Factory Pattern(using reflection) \n 3. OpenApi and Swagger \n 4. Custom exceptions \n 5. Interceptors \n 6. Hateoas \n\n <b> TODO: </b> \n 1. Unhandled custom exception interceptor")
 public class TaxController {
 
     private TaxService taxService;
@@ -59,7 +59,7 @@ public class TaxController {
         }
     }
 
-    @Operation(summary = "Retriev all tax rates")
+    @Operation(summary = "Retrieve all tax rates")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "All tax rates", content = @Content(schema = @Schema(implementation = OutputTaxModel.class))) })
 
@@ -80,6 +80,6 @@ public class TaxController {
 
         // allTaxes.add(findAllLink);
 
-        return new ResponseEntity<List<OutputTaxModel>>(taxService.getAllTaxRates(), HttpStatus.OK);
+        return new ResponseEntity<List<OutputTaxModel>>(allTaxes, HttpStatus.OK);
     }
 }
