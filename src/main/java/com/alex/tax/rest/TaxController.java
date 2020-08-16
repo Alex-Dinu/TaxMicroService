@@ -36,7 +36,7 @@ public class TaxController {
         this.taxService = taxService;
     }
 
-    @Operation(summary = "Retriev sales tax for a particular state")
+    @Operation(summary = "Retrieve sales tax for a particular state")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Tax rate was returned with the selected state", content = @Content(schema = @Schema(implementation = OutputTaxModel.class))),
             @ApiResponse(responseCode = "404", description = "Tax rate could not be found for the selected state") })
