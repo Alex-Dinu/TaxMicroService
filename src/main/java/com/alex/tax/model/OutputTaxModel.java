@@ -1,8 +1,5 @@
 package com.alex.tax.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import org.springframework.hateoas.RepresentationModel;
 
 import io.swagger.v3.oas.annotations.media.Schema;
